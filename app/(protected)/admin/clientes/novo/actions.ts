@@ -1,6 +1,6 @@
-export const runtime = 'nodejs'
-
 "use server"
+
+export const runtime = 'nodejs'
 
 import { z } from "zod"
 import sql from "@/lib/db"

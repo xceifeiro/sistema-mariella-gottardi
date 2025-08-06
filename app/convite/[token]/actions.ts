@@ -1,6 +1,6 @@
-export const runtime = 'nodejs'
-
 "use server"
+
+export const runtime = 'nodejs'
 
 import sql from "@/lib/db"
 import { redirect } from "next/navigation"
