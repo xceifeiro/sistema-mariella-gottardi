@@ -1,0 +1,793 @@
+/* ========================================
+   CRM 4 TEMPERAMENTOS - ESTILOS ANÁLISE FACIAL
+   ======================================== */
+
+/* === CONTAINER PRINCIPAL === */
+.analysis-container {
+  color: #f1f5f9;
+  line-height: 1.6;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: rgba(51, 65, 85, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 2px solid rgba(148, 163, 184, 0.3) !important;
+  border-radius: 1rem !important;
+  padding: 2rem !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* === TÍTULOS E HIERARQUIA === */
+.analysis-title {
+  color: #f1f5f9;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #60a5fa;
+  padding-bottom: 0.75rem;
+  background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+.section-title {
+  color: #60a5fa;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.subsection-title {
+  color: #4ade80;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.feature-title {
+  color: #f1f5f9;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* === PARÁGRAFOS E TEXTO === */
+.analysis-text {
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.intro-text {
+  color: #cbd5e1;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+  border-left: 4px solid #60a5fa;
+  padding-left: 1.5rem;
+  background: rgba(96, 165, 250, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.emphasis-text {
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.subtle-text {
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.muted-text {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+/* === TEMPERAMENTOS - CORES ESPECÍFICAS === */
+.temperament-sanguine {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4) !important;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0.25rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.temperament-choleric {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0.25rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.temperament-melancholic {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: #22c55e !important;
+  border: 1px solid rgba(34, 197, 94, 0.4) !important;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0.25rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.temperament-phlegmatic {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #3b82f6 !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0.25rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Estilos para temperamentos */
+.temperament-sanguineo {
+  background: rgba(239, 68, 68, 0.2);
+  color: rgb(252, 165, 165);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.temperament-colerico {
+  background: rgba(245, 158, 11, 0.2);
+  color: rgb(253, 230, 138);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.temperament-melancolico {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.temperament-fleumatico {
+  background: rgba(34, 197, 94, 0.2);
+  color: rgb(134, 239, 172);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* === SEÇÕES DE TEMPERAMENTO === */
+.temperament-section {
+  background: rgba(51, 65, 85, 0.4);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.temperament-header {
+  color: #f1f5f9;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.temperament-icon {
+  background: linear-gradient(135deg, #60a5fa, #a855f7);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+/* === CARDS E CAIXAS === */
+.info-card {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.positive-card {
+  background: rgba(34, 197, 94, 0.1) !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.3s ease !important;
+}
+
+.attention-card {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.3s ease !important;
+}
+
+.warning-card {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.synthesis-card {
+  background: rgba(30, 41, 59, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.3s ease !important;
+}
+
+.identity-phrase {
+  background: rgba(168, 85, 247, 0.1) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-left: 4px solid #a855f7 !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  margin: 1rem 0 !important;
+}
+
+/* === TÍTULOS DOS CARDS === */
+.info-title {
+  color: #60a5fa;
+  margin: 0.5rem 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.positive-title {
+  color: #22c55e !important;
+  margin: 0.5rem 0 !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.attention-title {
+  color: #fbbf24 !important;
+  margin: 0.5rem 0 !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.warning-title {
+  color: #ef4444;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.synthesis-title {
+  color: #a855f7;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* === LISTAS === */
+.analysis-list {
+  color: #e2e8f0;
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  list-style: disc !important;
+  list-style-position: inside !important;
+}
+
+.analysis-list li {
+  color: #e2e8f0;
+  margin: 0.25rem 0;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.analysis-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #60a5fa;
+  font-weight: bold;
+}
+
+.positive-list li::before {
+  content: "✓";
+  color: #4ade80;
+}
+
+.attention-list li::before {
+  content: "⚠";
+  color: #fb923c;
+}
+
+.numbered-list {
+  color: #e2e8f0;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.numbered-list li {
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
+}
+
+/* === GRID E LAYOUT === */
+.temperament-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.two-column-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* Estilos para análise facial estruturada */
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* === BARRAS DE PROGRESSO === */
+.progress-container {
+  margin: 2rem 0;
+}
+
+.progress-item {
+  margin-bottom: 0.75rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.progress-label {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.progress-value {
+  font-weight: bold;
+}
+
+.progress-value.sanguine {
+  color: #fbbf24;
+}
+.progress-value.choleric {
+  color: #ef4444;
+}
+.progress-value.melancholic {
+  color: #a855f7;
+}
+.progress-value.phlegmatic {
+  color: #60a5fa;
+}
+
+.progress-bar {
+  background: rgba(51, 65, 85, 0.6);
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 0.25rem;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.sanguine {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.progress-fill.choleric {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.progress-fill.melancholic {
+  background: linear-gradient(90deg, #a855f7, #9333ea);
+}
+
+.progress-fill.phlegmatic {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+}
+
+/* === TABELAS === */
+.analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(51, 65, 85, 0.6) !important;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.analysis-table th {
+  color: #f1f5f9;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(30, 41, 59, 0.8) !important;
+}
+
+.analysis-table td {
+  color: #e2e8f0;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* === CITAÇÕES === */
+.analysis-quote {
+  border-left: 4px solid #a855f7;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  background: rgba(168, 85, 247, 0.1);
+  padding: 1rem 1rem 1rem 2rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: #cbd5e1;
+}
+
+/* === ELEMENTOS ESPECIAIS === */
+.archetype-section {
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.archetype-name {
+  color: #60a5fa;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.visual-style {
+  color: #a855f7 !important;
+  font-weight: 500 !important;
+}
+
+.percentage-high {
+  color: #4ade80;
+}
+.percentage-medium {
+  color: #fbbf24;
+}
+.percentage-low {
+  color: #ef4444;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .analysis-title {
+    font-size: 2rem !important;
+  }
+
+  .section-title {
+    font-size: 1.5rem !important;
+  }
+
+  .temperament-grid,
+  .two-column-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-table {
+    font-size: 0.875rem;
+  }
+
+  .analysis-table th,
+  .analysis-table td {
+    padding: 0.5rem;
+  }
+
+  .analysis-container {
+    padding: 1rem !important;
+  }
+
+  .glass-dark {
+    margin: 0.5rem;
+  }
+
+  .grid-cols-1.lg\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .analysis-title {
+    font-size: 1.75rem !important;
+  }
+
+  .section-title {
+    font-size: 1.25rem !important;
+  }
+
+  .subsection-title {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* === ANIMAÇÕES === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* === UTILITÁRIOS === */
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
+}
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+.mt-12 {
+  margin-top: 3rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.border {
+  border-width: 1px;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.border-l-4 {
+  border-left-width: 4px;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.space-y-10 > * + * {
+  margin-top: 2.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.list-disc {
+  list-style-type: disc;
+}
+
+.list-inside {
+  list-style-position: inside;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+.font-serif {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
