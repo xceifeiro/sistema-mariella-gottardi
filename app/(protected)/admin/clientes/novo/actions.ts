@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 "use server"
 
 import { z } from "zod"

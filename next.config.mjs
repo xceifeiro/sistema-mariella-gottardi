@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -10,9 +11,8 @@ const nextConfig = {
     unoptimized: true,
   },
   serverActions: {
-    bodySizeLimit: '50mb', // ⬅️ Adicionado aqui
+    bodySizeLimit: '50mb',
   },
 }
 
 export default nextConfig
-

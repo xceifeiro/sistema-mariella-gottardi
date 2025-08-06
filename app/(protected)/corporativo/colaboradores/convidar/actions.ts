@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 "use server"
 
 import sql from "@/lib/db"

@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 "use server"
 
 import sql from "@/lib/db"
@@ -6,6 +8,7 @@ import bcrypt from "bcryptjs"
 import { toZonedTime, format } from "date-fns-tz"
 
 const timeZone = "America/Sao_Paulo"
+
 const now = new Date()
 // Converte a data UTC para horário de São Paulo
 const nowInSP = toZonedTime(now, timeZone)

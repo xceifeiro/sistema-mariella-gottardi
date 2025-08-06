@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 interface CloudinaryUploadResponse {
   public_id: string
   version: number
