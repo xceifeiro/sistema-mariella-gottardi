@@ -1,7 +1,5 @@
 "use server"
 
-export const runtime = 'nodejs'
-
 import sql from "@/lib/db"
 import { redirect } from "next/navigation"
 import bcrypt from "bcryptjs"

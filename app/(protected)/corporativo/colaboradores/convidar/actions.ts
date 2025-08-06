@@ -1,7 +1,5 @@
 "use server"
 
-export const runtime = 'nodejs'
-
 import sql from "@/lib/db"
 import { getSession } from "@/lib/auth.server"
 import { redirect } from "next/navigation"

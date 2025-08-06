@@ -1,5 +1,3 @@
-export const runtime = 'nodejs'
-
 import { cookies } from "next/headers"
 import { SignJWT, jwtVerify } from "jose"
 import { type NextRequest, NextResponse } from "next/server"

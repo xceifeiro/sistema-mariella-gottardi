@@ -1,7 +1,5 @@
 "use server"
 
-export const runtime = 'nodejs'
-
 import { z } from "zod"
 import sql from "@/lib/db"
 import { hashPassword } from "@/lib/auth"
