@@ -156,12 +156,12 @@ function PedidoCard({ pedido }: { pedido: PedidoAnalise }) {
               Analisar e Criar Resultado
             </Link>
           </Button>
-          <Button variant="outline" asChild>
+          {/*<Button variant="outline" asChild>
             <Link href={`/admin/analise-facial/${pedido.id}/imagens`}>
               <Camera className="w-4 h-4 mr-2" />
               Ver Imagens Completas
             </Link>
-          </Button>
+          </Button>*/}
         </div>
       </CardContent>
     </Card>
@@ -184,8 +184,8 @@ export default async function AdminAnaliseFacialPage() {
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl text-whitefont-bold tracking-tight">Pedidos Pendentes de Análise</h2>
-            <p className="text-muted-foreground">Gerencie e complete as análises faciais dos clientes</p>
+            <h2 className="text-2xl text-whitefont-bold tracking-tight text-white">Pedidos Pendentes de Análise</h2>
+            <p className="text-muted-foreground text-white/70">Gerencie e complete as análises faciais dos clientes</p>
           </div>
           <Badge variant="secondary" className="text-lg px-4 py-2">
             {pedidos.length} pendente{pedidos.length !== 1 ? "s" : ""}

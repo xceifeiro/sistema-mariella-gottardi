@@ -47,15 +47,17 @@ export default function HeaderLayoutClient({ userName, userEmail }: HeaderLayout
   }, [])
 
   const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: Home },
-    // O botão Serviços só aparece se NÃO tiver os 3 pedidos
-    ...(!temTodosPedidos
-      ? [{ name: "Serviços", href: "/dashboard/servicos", icon: ShoppingCart }]
-      : []),
-    { name: "Teste Temperamentos", href: "/dashboard/teste-temperamentos", icon: Brain },
-    { name: "Análise Facial", href: "/dashboard/analise-facial", icon: Camera },
-    { name: "Resultados", href: "/dashboard/resultados", icon: FileText },
-  ]
+  { name: "Dashboard", href: "/dashboard", icon: Home },
+  // Se NÃO tiver todos os pedidos, inclui Serviços E Resultados
+  ...(!temTodosPedidos
+    ? [
+        { name: "Serviços", href: "/dashboard/servicos", icon: ShoppingCart },
+        { name: "Resultados", href: "/dashboard/resultados", icon: FileText },
+      ]
+    : [{ name: "Resultados", href: "/dashboard/resultados", icon: FileText }]),
+  { name: "Teste Temperamentos", href: "/dashboard/teste-temperamentos", icon: Brain },
+  { name: "Análise Facial", href: "/dashboard/analise-facial", icon: Camera },
+]
 
   const handleLogout = async () => {
     try {
@@ -194,8 +196,8 @@ export default function HeaderLayoutClient({ userName, userEmail }: HeaderLayout
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium text-slate-100">Usuário</p>
-                    <p className="text-xs text-slate-300">usuario@email.com</p>
+                    <p className="text-sm font-medium text-slate-100">{userName || "usuario"}</p>
+                    <p className="text-xs text-slate-300">{userEmail || "usuario@email.com"}</p>
                   </div>
                 </div>
                 <Link

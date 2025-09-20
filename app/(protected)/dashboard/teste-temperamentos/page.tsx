@@ -26,7 +26,7 @@ export default async function PaginaTesteTemperamentos() {
   const pedidoValido = pedidos[0];
 
   if (!pedidoValido) {
-    redirect('/dashboard/resultados');
+    redirect('/dashboard/');
   }
 
   // ✅ Só consulta resultados se existe pedido válido
