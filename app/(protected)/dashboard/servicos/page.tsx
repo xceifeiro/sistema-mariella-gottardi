@@ -10,7 +10,6 @@ import Link from "next/link"
 
 async function getServicesAndUserOrders(clientId: string) {
   // Buscar todos os serviços ativos
-  //AQUI EU EXCLUI O PACOTE FULL por enquanto...
   const excludeId = 8
 
   const services = await sql`

@@ -20,13 +20,7 @@ INSERT INTO servicos (nome, descricao, slug, ativo) VALUES
     'Mapeamento facial personalizado que revela traços de personalidade através da análise dos seus traços faciais. Inclui orientações de visagismo e dicas para potencializar sua imagem pessoal e profissional.',
     'analise-facial',
     true
-),
-(
-    'Pacote FULL',
-    'Acesso completo a todos os nossos serviços! Inclui Teste de Temperamentos, Teste DISC e Análise Facial. A opção mais completa para um autoconhecimento profundo e desenvolvimento pessoal abrangente.',
-    'pacote-full',
-    true
-);
+)
 
 -- Verificar os serviços inseridos
 SELECT id, nome, slug, ativo FROM servicos ORDER BY id;

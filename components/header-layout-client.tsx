@@ -20,7 +20,7 @@ export default function HeaderLayoutClient() {
   const [temTodosPedidos, setTemTodosPedidos] = useState(false)
   const pathname = usePathname()
 
-  const pedidosNecessarios = [5, 7, 8]
+  const pedidosNecessarios = [5, 7]
 
   useEffect(() => {
     async function fetchPedidos() {

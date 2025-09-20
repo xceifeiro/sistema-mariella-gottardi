@@ -92,11 +92,6 @@ export async function aceitarConvite(formData: FormData): Promise<void> {
       INSERT INTO pedidos (cliente_id, servico_id, status, data_pedido)
       VALUES (${novoUsuario.id}, 7, 'pendente', ${nowSP})
     `
-    // Criar pedido Pacote FULL
-    await tx`
-      INSERT INTO pedidos (cliente_id, servico_id, status, data_pedido)
-      VALUES (${novoUsuario.id}, 8, 'concluido', ${nowSP})
-    `
 
     
     // Log: criação usuário

@@ -111,13 +111,6 @@ export default function HeaderLayoutAdmin({ userName }: HeaderLayoutAdminProps) 
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/20" />
-                <DropdownMenuItem asChild className="text-slate-100 hover:bg-white/20">
-                  <Link href="/admin/configuracoes" className="flex items-center">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Configurações</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-white/20" />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-300 hover:bg-red-500/20">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sair</span>

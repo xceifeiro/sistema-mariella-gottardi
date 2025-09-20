@@ -186,8 +186,8 @@ export default function ClientesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Clientes</h1>
-          <p className="text-muted-foreground">Gerencie todos os clientes do sistema</p>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Clientes</h1>
+          <p className="text-muted-foreground text-white/70">Gerencie todos os clientes do sistema</p>
         </div>
         <Link href="/admin/clientes/novo">
           <Button>
@@ -235,7 +235,7 @@ export default function ClientesPage() {
             <UserX className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{clientes.reduce((sum, c) => sum + c.total_pedidos, 0)}</div>
+            <div className="text-2xl font-bold">{clientes.reduce((sum, c) => sum + Number(c.total_pedidos), 0)}</div>
           </CardContent>
         </Card>
       </div>

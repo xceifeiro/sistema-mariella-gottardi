@@ -176,8 +176,8 @@ export default async function AdminTesteTemperamentosPage({
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Teste de Temperamentos</h1>
-            <p className="text-muted-foreground">Visualização do resultado - Admin</p>
+            <h1 className="text-3xl font-bold tracking-tight text-white">Teste de Temperamentos</h1>
+            <p className="text-muted-foreground text-white/70">Visualização do resultado - Admin</p>
           </div>
         </div>
       </div>

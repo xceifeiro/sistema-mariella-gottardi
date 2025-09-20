@@ -121,12 +121,8 @@ function getServiceButtonText(servicoId: string) {
   switch (servicoId) {
     case "5": // Teste de Temperamentos
       return "Ver Teste"
-    case "6": // Teste DISC
-      return "Ver Teste"
     case "7": // Análise Facial
       return "Ver Análise"
-    case "8": // Pacote Full
-      return "Ver Pacote"
     default:
       return "Ver Detalhes"
   }
@@ -234,8 +230,8 @@ export default async function ClienteDetalhesPage({
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Detalhes do Cliente</h1>
-          <p className="text-muted-foreground">Informações completas e histórico de pedidos</p>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Detalhes do Cliente</h1>
+          <p className="text-muted-foreground text-white/70">Informações completas e histórico de pedidos</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
