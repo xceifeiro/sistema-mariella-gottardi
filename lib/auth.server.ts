@@ -1,16 +1,19 @@
-"use server"
+// auth.server.ts
+import { decrypt } from "./auth"
 
-import { cookies } from "next/headers"
-import { encrypt, decrypt } from "./auth"
+// Para APIs
+export async function getSessionFromRequest(request: Request) {
+  const cookieHeader = request.headers.get("cookie")
+  if (!cookieHeader) return null
 
-export async function getSession() {
-  const cookieStore = await cookies()
-  const session = cookieStore.get("session")?.value
-  if (!session) return null
-  return await decrypt(session)
-}
+  const match = cookieHeader.match(/session=([^;]+)/)
+  if (!match) return null
 
-export async function logout() {
-  const cookieStore = await cookies()
-  cookieStore.set("session", "", { expires: new Date(0) })
+  try {
+    const session = await decrypt(match[1])
+    return session
+  } catch (err) {
+    console.error("Erro ao decodificar sessão:", err)
+    return null
+  }
 }

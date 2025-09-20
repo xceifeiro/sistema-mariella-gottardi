@@ -53,8 +53,8 @@ export default async function CorporateClientsPage() {
       <main className="flex flex-1 flex-col gap-6 p-4 md:gap-8 md:p-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Clientes Corporativos</h1>
-            <p className="text-muted-foreground">Gerencie empresas e seus colaboradores</p>
+            <h1 className="text-3xl font-bold tracking-tight text-white">Clientes Corporativos</h1>
+            <p className="text-muted-foreground text-white/70">Gerencie empresas e seus colaboradores</p>
           </div>
           <Link href="/admin/corporativos/novo">
             <Button>
@@ -191,6 +191,8 @@ export default async function CorporateClientsPage() {
                         </div>
                       </div>
 
+                      {/*
+                      ================================= // COMENTADO PARA ATUALIZAR DEPOIS E ADICIONAR AS PAGINAS ====================================
                       <div className="flex gap-2">
                         <Link href={`/admin/corporativos/${empresa.id}`}>
                           <Button variant="outline" size="sm">
@@ -202,7 +204,7 @@ export default async function CorporateClientsPage() {
                           <Settings className="h-4 w-4 mr-2" />
                           Configurar
                         </Button>
-                      </div>
+                      </div>*/}
                     </div>
 
                     {/* Barra de progresso dos colaboradores */}

@@ -1,31 +1,27 @@
-"use client"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import type React from "react"
+import { getSession } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import HeaderLayoutClient from "@/components/header-layout-client"
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const router = useRouter()
+  const session = await getSession()
 
-  async function handleLogout() {
-    // Chame sua API logout (você precisa criar essa rota)
-    await fetch("/api/logout", {
-      method: "POST",
-    })
+  if (!session) {
+    redirect("/login")
+  }
 
-    // Redireciona para login
-    router.push("/login")
+  if (session.tipo_usuario !== "cliente") {
+    redirect("/dashboard") // ou outra rota adequada
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      
-    <HeaderLayoutClient/>
-      {children}
+    <div className="min-h-screen flex flex-col">
+      <HeaderLayoutClient userName={session.nome} userEmail={session.email} />
+      <main className="flex-1">{children}</main>
     </div>
   )
 }

@@ -20,7 +20,7 @@ export default async function CorporativoLayout({
 
   return (
     <div className="min-h-screen">
-      <HeaderLayoutCorporativo userName={session.nome} />
+      <HeaderLayoutCorporativo userName={session.nome} userEmail={session.email} />
       <main className="flex-1">{children}</main>
     </div>
   )

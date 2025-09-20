@@ -54,6 +54,7 @@ export async function loginAction(prevState: FormState, formData: FormData): Pro
       sub: user.id,
       id: user.id,
       nome: user.nome,
+      email: user.email || "corporativo@email.com",
       tipo_usuario: user.tipo_usuario,
       expires,
     })

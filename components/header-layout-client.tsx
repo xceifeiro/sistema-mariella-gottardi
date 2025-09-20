@@ -15,7 +15,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export default function HeaderLayoutClient() {
+interface HeaderLayoutClientProps {
+  userName: string
+  userEmail?: string
+}
+
+export default function HeaderLayoutClient({ userName, userEmail }: HeaderLayoutClientProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [temTodosPedidos, setTemTodosPedidos] = useState(false)
   const pathname = usePathname()
@@ -116,8 +121,8 @@ export default function HeaderLayoutClient() {
               <DropdownMenuContent className="w-56 glass-card border-white/20" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none text-slate-100">Usuário</p>
-                    <p className="text-xs leading-none text-slate-300">usuario@email.com</p>
+                    <p className="text-sm font-medium leading-none text-slate-100">{userName || "usuario"}</p>
+                    <p className="text-xs leading-none text-slate-300">{userEmail || "usuario@email.com"}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/20" />
