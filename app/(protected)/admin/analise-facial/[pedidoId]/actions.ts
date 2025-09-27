@@ -3,108 +3,157 @@
 import { getSession } from "@/lib/auth"
 import sql from "@/lib/db"
 import { revalidatePath } from "next/cache"
-import type { AnaliseFacial } from "@/lib/types"
 
-// Função para enviar dados para webhook N8N
-async function enviarParaWebhookN8N(analiseData: any, clienteInfo: any) {
+// Função para enviar webhook para N8N para geração de dossiê
+async function sendDossieWebhook(resultadoData: any) {
   try {
-    const webhookUrl = process.env.FACIAL_ANALYSIS_WEBHOOK_URL
+    const webhookUrl = process.env.N8N_DOSSIE_WEBHOOK_URL || process.env.N8N_WEBHOOK_URL
+
     if (!webhookUrl) {
-      console.log("FACIAL_ANALYSIS_WEBHOOK_URL não configurada, pulando envio")
-      return
+      console.warn("N8N_DOSSIE_WEBHOOK_URL não configurada")
+      return { success: false, error: "Webhook URL não configurada" }
     }
 
-    const payload = {
-      evento: "analise_facial_concluida",
-      timestamp: new Date().toISOString(),
-      pedido_id: analiseData.pedido_id,
-      cliente: {
-        id: clienteInfo.id,
-        nome: clienteInfo.nome,
-        email: clienteInfo.email,
-      },
-      analise: {
-        temperamento_predominante: analiseData.temperamento_predominante,
-        descricao_geral: analiseData.descricao_geral,
-        formato_rosto: {
-          classificacao: analiseData.formato_rosto_classificacao,
-          temperamento: analiseData.formato_rosto_temperamento,
-          justificativa: analiseData.formato_rosto_justificativa,
-          interpretacao: analiseData.formato_rosto_interpretacao,
-        },
-        testa: {
-          classificacao: analiseData.testa_classificacao,
-          temperamento: analiseData.testa_temperamento,
-          justificativa: analiseData.testa_justificativa,
-          interpretacao: analiseData.testa_interpretacao,
-        },
-        sobrancelhas: {
-          classificacao: analiseData.sobrancelhas_classificacao,
-          temperamento: analiseData.sobrancelhas_temperamento,
-          justificativa: analiseData.sobrancelhas_justificativa,
-          interpretacao: analiseData.sobrancelhas_interpretacao,
-        },
-        cabelo: {
-          classificacao: analiseData.cabelo_classificacao,
-          temperamento: analiseData.cabelo_temperamento,
-          justificativa: analiseData.cabelo_justificativa,
-          interpretacao: analiseData.cabelo_interpretacao,
-        },
-        olhos: {
-          classificacao: analiseData.olhos_classificacao,
-          temperamento: analiseData.olhos_temperamento,
-          justificativa: analiseData.olhos_justificativa,
-          interpretacao: analiseData.olhos_interpretacao,
-        },
-        nariz: {
-          classificacao: analiseData.nariz_classificacao,
-          temperamento: analiseData.nariz_temperamento,
-          justificativa: analiseData.nariz_justificativa,
-          interpretacao: analiseData.nariz_interpretacao,
-        },
-        macas: {
-          classificacao: analiseData.macas_classificacao,
-          temperamento: analiseData.macas_temperamento,
-          justificativa: analiseData.macas_justificativa,
-          interpretacao: analiseData.macas_interpretacao,
-        },
-        boca: {
-          classificacao: analiseData.boca_classificacao,
-          temperamento: analiseData.boca_temperamento,
-          justificativa: analiseData.boca_justificativa,
-          interpretacao: analiseData.boca_interpretacao,
-        },
-        queixo: {
-          classificacao: analiseData.queixo_classificacao,
-          temperamento: analiseData.queixo_temperamento,
-          justificativa: analiseData.queixo_justificativa,
-          interpretacao: analiseData.queixo_interpretacao,
-        },
-      },
+    const webhookPayload = {
+      resultado_id: resultadoData.resultado_id,
+      pedido_id: resultadoData.pedido_id,
+      cliente_id: resultadoData.cliente_id,
+      cliente_nome: resultadoData.cliente_nome,
+      cliente_email: resultadoData.cliente_email,
+      analise_conteudo: resultadoData.analise_conteudo,
+      data_conclusao: new Date().toISOString(),
+      tipo: "gerar_dossie",
+      callback_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/dossie-callback`,
     }
-
-    console.log("Enviando dados para N8N webhook:", webhookUrl)
 
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "User-Agent": "CRM-4-Temperamentos/1.0",
+        "X-Webhook-Source": "dossie-generation",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(webhookPayload),
     })
 
-    if (!response.ok) {
-      console.error(`Erro no webhook N8N: ${response.status} - ${response.statusText}`)
-      const errorText = await response.text()
-      console.error("Resposta do erro:", errorText)
-    } else {
-      console.log("Webhook N8N enviado com sucesso")
-      const responseData = await response.text()
-      console.log("Resposta do N8N:", responseData)
+    const responseText = await response.text()
+
+    return {
+      success: response.ok,
+      status: response.status,
+      response: responseText,
     }
   } catch (error) {
-    console.error("Erro ao enviar webhook para N8N:", error)
+    console.error("Erro ao enviar webhook para dossiê:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Erro desconhecido",
+    }
+  }
+}
+
+export async function salvarAnaliseTexto(pedidoId: string, clienteId: string, conteudoAnalise: string) {
+  try {
+    const session = await getSession()
+
+    if (!session || session.tipo_usuario !== "admin") {
+      return { success: false, error: "Acesso negado" }
+    }
+
+    // Buscar dados do cliente
+    const clienteData = await sql`
+      SELECT u.nome, u.email 
+      FROM usuarios u 
+      WHERE u.id = ${clienteId}
+    `
+
+    if (clienteData.length === 0) {
+      return { success: false, error: "Cliente não encontrado" }
+    }
+
+    const cliente = clienteData[0]
+
+    // Verificar se já existe resultado para este pedido
+    const resultadoExistente = await sql`
+      SELECT id FROM resultados_testes 
+      WHERE pedido_id = ${pedidoId}
+    `
+
+    let resultadoId: string
+
+    if (resultadoExistente.length > 0) {
+      // Atualizar resultado existente
+      resultadoId = resultadoExistente[0].id
+      await sql`
+        UPDATE resultados_testes 
+        SET 
+          html = ${conteudoAnalise},
+          resultado = ${JSON.stringify({ conteudo: conteudoAnalise, tipo: "texto_livre" })},
+          data_conclusao = NOW()
+        WHERE id = ${resultadoId}
+      `
+    } else {
+      // Criar novo resultado
+      const novoResultado = await sql`
+        INSERT INTO resultados_testes (pedido_id, html, resultado, data_conclusao)
+        VALUES (
+          ${pedidoId}, 
+          ${conteudoAnalise}, 
+          ${JSON.stringify({ conteudo: conteudoAnalise, tipo: "texto_livre" })},
+          NOW()
+        )
+        RETURNING id
+      `
+      resultadoId = novoResultado[0].id
+    }
+
+    // Atualizar status do pedido
+    await sql`
+      UPDATE pedidos 
+      SET status = 'concluido', data_conclusao = NOW()
+      WHERE id = ${pedidoId}
+    `
+
+    // Preparar dados para webhook de dossiê
+    const resultadoData = {
+      resultado_id: resultadoId,
+      pedido_id: pedidoId,
+      cliente_id: clienteId,
+      cliente_nome: cliente.nome,
+      cliente_email: cliente.email,
+      analise_conteudo: conteudoAnalise,
+    }
+
+    // Enviar webhook para geração de dossiê
+    console.log("Enviando webhook para geração de dossiê...")
+    const webhookResult = await sendDossieWebhook(resultadoData)
+
+    // Registrar log da ação (corrigido o nome do campo)
+    await sql`
+      INSERT INTO logs (usuario_id, acao, descricao, ip)
+      VALUES (
+        ${session.sub}, 
+        'analise_facial_concluida', 
+        ${`Análise facial concluída para ${cliente.nome}. Webhook dossiê: ${webhookResult.success ? "enviado" : "falhou"}`},
+        '127.0.0.1'
+      )
+    `
+
+    revalidatePath("/admin/analise-facial")
+    revalidatePath(`/admin/analise-facial/${pedidoId}`)
+
+    return {
+      success: true,
+      message: "Análise salva com sucesso! Dossiê será gerado automaticamente.",
+      webhookStatus: webhookResult.success ? "enviado" : "falhou",
+      resultadoId,
+    }
+  } catch (error) {
+    console.error("Erro ao salvar análise:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Erro interno do servidor",
+    }
   }
 }
 
@@ -197,7 +246,7 @@ export async function salvarAnalise(pedidoId: string, resultado: any, html: stri
   }
 }
 
-export async function salvarAnaliseEstruturada(analiseData: Partial<AnaliseFacial>) {
+export async function salvarAnaliseEstruturada(analiseData: any) {
   try {
     // Verificar se é admin
     const session = await getSession()
@@ -327,10 +376,16 @@ export async function salvarAnaliseEstruturada(analiseData: Partial<AnaliseFacia
       WHERE id = ${analiseData.pedido_id}
     `
 
-    // Enviar para webhook N8N se as informações do cliente estão disponíveis
-    if (clienteInfo) {
-      await enviarParaWebhookN8N(analiseData, clienteInfo)
-    }
+    // Registrar log da ação (corrigido o nome do campo)
+    await sql`
+      INSERT INTO logs (usuario_id, acao, descricao, ip)
+      VALUES (
+        ${session.sub}, 
+        'analise_estruturada_salva', 
+        ${`Análise estruturada salva para cliente ${clienteInfo?.nome || "desconhecido"}`},
+        '127.0.0.1'
+      )
+    `
 
     // Revalidar as páginas relacionadas
     revalidatePath(`/admin/analise-facial/${analiseData.pedido_id}`)

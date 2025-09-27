@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, Home, Users, Camera, BarChart3, Settings, LogOut, ChevronDown, Shield, Bell } from "lucide-react"
+import { Menu, Home, Users, Camera, BarChart3, LogOut, ChevronDown, Shield, BarChart } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface HeaderLayoutAdminProps {
@@ -28,7 +28,8 @@ export default function HeaderLayoutAdmin({ userName }: HeaderLayoutAdminProps) 
     { name: "Dashboard", href: "/admin", icon: Home },
     { name: "Clientes", href: "/admin/clientes", icon: Users },
     { name: "Análise Facial", href: "/admin/analise-facial", icon: Camera },
-    { name: "Corporativos", href:"/admin/corporativos", icon: BarChart3}
+    { name: "Corporativos", href:"/admin/corporativos", icon: BarChart3},
+    { name: "Dossiês", href:"/admin/dossies", icon: BarChart}
   ]
 
   const handleLogout = async () => {

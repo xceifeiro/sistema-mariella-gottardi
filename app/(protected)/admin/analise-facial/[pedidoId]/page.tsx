@@ -3,10 +3,9 @@ import { getSession } from "@/lib/auth"
 import sql from "@/lib/db"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Camera, User, Calendar, CheckCircle, Eye, Edit } from "lucide-react"
+import { ArrowLeft, Camera, User, Calendar, CheckCircle, Eye, Edit, FileText, Send } from "lucide-react"
 import Link from "next/link"
-import StructuredAnalysisForm from "./structured-analysis-form"
-import StructuredAnalysisResult from "./structured-analysis-result"
+import RawAnalysisForm from "./raw-analysis-form"
 import type { AnaliseFacial } from "@/lib/types"
 
 interface PedidoDetalhado {
@@ -25,6 +24,8 @@ interface PedidoDetalhado {
   resultado_json: any | null
   resultado_html: string | null
   data_conclusao: string | null
+  dossie_gerado: boolean | null
+  dossie_status: string | null
 }
 
 interface PageProps {
@@ -53,7 +54,9 @@ async function getPedidoDetalhado(pedidoId: string) {
         rt.id as resultado_id,
         rt.resultado as resultado_json,
         rt.html as resultado_html,
-        rt.data_conclusao
+        rt.data_conclusao,
+        rt.dossie_gerado,
+        rt.dossie_status
       FROM pedidos p
       JOIN usuarios u ON p.cliente_id = u.id
       JOIN servicos s ON p.servico_id = s.id
@@ -111,7 +114,7 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
     notFound()
   }
 
-  // Verificar se já tem resultado concluído (nova estrutura ou legado)
+  // Verificar se já tem resultado concluído
   const hasResult = analiseEstruturada || (pedido.resultado_id && (pedido.resultado_json || pedido.resultado_html))
 
   return (
@@ -130,8 +133,9 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
             </Link>
           </Button>
           <h1 className="text-lg font-semibold md:text-2xl text-slate-100">Análise Facial - {pedido.cliente_nome}</h1>
-          {hasResult && !isEditing && (
-            <div className="ml-auto flex items-center gap-4">
+
+          <div className="ml-auto flex items-center gap-4">
+            {hasResult && !isEditing && (
               <Button
                 asChild
                 variant="outline"
@@ -143,14 +147,9 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                   Editar
                 </Link>
               </Button>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-green-400 font-medium">Concluído</span>
-              </div>
-            </div>
-          )}
-          {isEditing && (
-            <div className="ml-auto">
+            )}
+
+            {isEditing && (
               <Button
                 asChild
                 variant="outline"
@@ -162,8 +161,35 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                   Ver Resultado
                 </Link>
               </Button>
-            </div>
-          )}
+            )}
+
+            {hasResult && pedido.dossie_gerado && (
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="glass-effect border-green-500/30 text-green-300 hover:bg-green-500/20 bg-transparent"
+              >
+                <Link href={`/admin/dossies/${pedido.resultado_id}`}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Ver Dossiê
+                </Link>
+              </Button>
+            )}
+
+            {hasResult && (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span className="text-green-400 font-medium">Concluído</span>
+                {pedido.dossie_gerado && (
+                  <div className="flex items-center gap-1 ml-2">
+                    <Send className="w-4 h-4 text-blue-400" />
+                    <span className="text-blue-400 text-sm">Dossiê: {pedido.dossie_status}</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </header>
 
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -220,7 +246,7 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                       <img
                         src={pedido.url_perfil_normal || "/placeholder.svg?height=200&width=200&text=Perfil+Normal"}
                         alt="Perfil Normal"
-                        className="w-full h-48 object-cover rounded-lg border border-white/20 cursor-pointer hover:opacity-80 transition-opacity"
+                        className="object-cover rounded-lg border border-white/20 hover:opacity-80 transition-opacity"
                       />
                       <p className="text-sm font-medium mt-2 text-slate-100">Perfil Normal</p>
                       <p className="text-xs text-slate-400">Expressão neutra</p>
@@ -229,7 +255,7 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                       <img
                         src={pedido.url_perfil_sorrindo || "/placeholder.svg?height=200&width=200&text=Perfil+Sorrindo"}
                         alt="Perfil Sorrindo"
-                        className="w-full h-48 object-cover rounded-lg border border-white/20 cursor-pointer hover:opacity-80 transition-opacity"
+                        className="object-cover rounded-lg border border-white/20 hover:opacity-80 transition-opacity"
                       />
                       <p className="text-sm font-medium mt-2 text-slate-100">Perfil Sorrindo</p>
                       <p className="text-xs text-slate-400">Sorriso natural</p>
@@ -238,7 +264,7 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                       <img
                         src={pedido.url_perfil_lado || "/placeholder.svg?height=200&width=200&text=Perfil+de+Lado"}
                         alt="Perfil de Lado"
-                        className="w-full h-48 object-cover rounded-lg border border-white/20 cursor-pointer hover:opacity-80 transition-opacity"
+                        className="object-cover rounded-lg border border-white/20 hover:opacity-80 transition-opacity"
                       />
                       <p className="text-sm font-medium mt-2 text-slate-100">Perfil de Lado</p>
                       <p className="text-xs text-slate-400">Vista lateral (90°)</p>
@@ -247,7 +273,7 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                       <img
                         src={pedido.url_boca_sorrindo || "/placeholder.svg?height=200&width=200&text=Boca+Sorrindo"}
                         alt="Boca Sorrindo"
-                        className="w-full h-48 object-cover rounded-lg border border-white/20 cursor-pointer hover:opacity-80 transition-opacity"
+                        className="object-cover align-center rounded-lg border border-white/20 hover:opacity-80 transition-opacity"
                       />
                       <p className="text-sm font-medium mt-2 text-slate-100">Boca Sorrindo</p>
                       <p className="text-xs text-slate-400">Foco na boca</p>
@@ -256,12 +282,12 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                 </CardContent>
               </Card>
 
-              {/* Formulário de Análise Estruturada */}
-              <StructuredAnalysisForm
-                pedidoId={pedido.id}
+              {/* Formulário de Análise com Texto Bruto */}
+              <RawAnalysisForm
+                pedidoId={pedidoId}
                 clienteId={pedido.cliente_id}
                 clienteNome={pedido.cliente_nome}
-                analiseExistente={analiseEstruturada}
+                resultadoExistente={pedido.resultado_html || pedido.resultado_json}
               />
             </>
           ) : (
@@ -289,12 +315,16 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
                         <p className="text-xl font-semibold">{pedido.cliente_nome}</p>
                         <p className="text-slate-200">
                           Concluído em:{" "}
-                          {analiseEstruturada?.atualizado_em
-                            ? formatDate(analiseEstruturada.atualizado_em)
-                            : pedido.data_conclusao
-                              ? formatDate(pedido.data_conclusao)
-                              : "Data não disponível"}
+                          {pedido.data_conclusao ? formatDate(pedido.data_conclusao) : "Data não disponível"}
                         </p>
+                        {pedido.dossie_gerado && (
+                          <div className="flex items-center gap-2 mt-2">
+                            <Send className="w-5 h-5 text-blue-400" />
+                            <span className="text-blue-300">
+                              Dossiê: <span className="font-semibold capitalize">{pedido.dossie_status}</span>
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -302,47 +332,22 @@ export default async function AdminAnalysisPage({ params, searchParams }: PagePr
               </div>
 
               {/* Renderizar o resultado */}
-              {analiseEstruturada ? (
-                <StructuredAnalysisResult
-                  analise={analiseEstruturada}
-                  clienteNome={pedido.cliente_nome}
-                  imagens={{
-                    perfil_normal: pedido.url_perfil_normal || "",
-                    perfil_sorrindo: pedido.url_perfil_sorrindo || "",
-                    perfil_lado: pedido.url_perfil_lado || "",
-                    boca_sorrindo: pedido.url_boca_sorrindo || "",
-                  }}
-                />
-              ) : pedido.resultado_html ? (
-                // Fallback para formato HTML legado
-                <Card className="glass-dark border-white/20 border-2 shadow-2xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-slate-100">Resultado da Análise (Formato Legado)</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div
-                      className="glass-effect p-6 rounded-xl border-2 border-white/20"
-                      dangerouslySetInnerHTML={{ __html: pedido.resultado_html }}
-                    />
-                  </CardContent>
-                </Card>
-              ) : (
-                // Fallback para formato JSON legado
-                <Card className="glass-dark border-white/20 border-2 shadow-2xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-slate-100">
-                      Resultado da Análise (Formato JSON Legado)
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="glass-effect p-6 rounded-xl border-2 border-white/20">
+              <Card className="glass-dark border-white/20 border-2 shadow-2xl">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-slate-100">Resultado da Análise</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="glass-effect p-6 rounded-xl border-2 border-white/20">
+                    {pedido.resultado_html ? (
+                      <div dangerouslySetInnerHTML={{ __html: pedido.resultado_html }} />
+                    ) : (
                       <pre className="text-slate-100 whitespace-pre-wrap text-sm overflow-auto">
                         {JSON.stringify(pedido.resultado_json, null, 2)}
                       </pre>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           )}
         </main>
